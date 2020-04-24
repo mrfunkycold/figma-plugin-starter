@@ -1,39 +1,37 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
+import { DataStructure } from "../../plugin/PluginDataManager";
 
-type IntroProps = {
-    plugin_data: object;
-};
+interface IntroProps {
+    plugin_data: DataStructure;
+    addName(nameInput: string): void;
+}
 
-type IntroState = {};
+interface IntroState {
+    nameInput: string;
+}
 
 export default class Intro extends React.Component<IntroProps, IntroState> {
-    private name_input: HTMLInputElement;
+    constructor(props: IntroProps) {
+        super(props);
 
-    private nameInputRef = (el: HTMLInputElement) => {
-        this.name_input = el;
+        this.state = {
+            nameInput: props.plugin_data.local.name_example
+        };
+    }
+
+    private updateName = (ev: ChangeEvent<HTMLInputElement>) => {
+        const nameInput = ev.target.value;
+
+        this.setState(() => ({
+            nameInput
+        }));
     };
 
-    addName = () => {
-        parent.postMessage(
-            {
-                pluginMessage: {
-                    type: "writeName",
-                    name: "name_example",
-                    value: this.name_input.value
-                }
-            },
-            "*"
-        );
+    private addName = () => {
+        this.props.addName(this.state.nameInput);
     };
 
     render() {
-        // Initial load while waiting for data from PluginDataManager
-        if (Object.keys(this.props.plugin_data).length === 0) {
-            return <div></div>;
-        }
-
-        let prefilledName = this.props.plugin_data["local"]["name_example"];
-
         return (
             <div>
                 <h1 className="type type--pos-x-large-normal mb-4">
@@ -51,8 +49,8 @@ export default class Intro extends React.Component<IntroProps, IntroState> {
                 <div className="mb-2">
                     <input
                         className="input"
-                        ref={this.nameInputRef}
-                        defaultValue={prefilledName}
+                        onChange={this.updateName}
+                        defaultValue={this.state.nameInput}
                         placeholder="Enter your name"></input>
                 </div>
                 <button

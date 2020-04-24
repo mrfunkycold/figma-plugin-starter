@@ -9,17 +9,36 @@ import "./styles/global/figma-plugin-ds.css";
 import "./styles/base.css";
 
 type AppProps = {
-    plugin_data: object;
+    plugin_data: any;
 };
 
-type AppState = {};
-
-export default class App extends React.Component<AppProps, AppState> {
+export default class App extends React.Component<AppProps> {
     render() {
-        return (
-            <div className="app type type--pos-medium-normal">
-                <Intro plugin_data={this.props.plugin_data} />
-            </div>
+        if (this.props.plugin_data.local) {
+            return (
+                <div className="app type type--pos-medium-normal">
+                    <Intro
+                        addName={this.addName}
+                        plugin_data={this.props.plugin_data}
+                    />
+                </div>
+            );
+        }
+
+        return null;
+    }
+
+    private addName(nameInput: string) {
+        console.log("nameInput", nameInput);
+        parent.postMessage(
+            {
+                pluginMessage: {
+                    type: "writeName",
+                    name: "name_example",
+                    value: nameInput
+                }
+            },
+            "*"
         );
     }
 }
