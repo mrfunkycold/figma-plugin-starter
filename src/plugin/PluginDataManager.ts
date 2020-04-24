@@ -1,6 +1,11 @@
 const DATA_KEY = "YOUR_APP_DATABASE_NAME";
 
-const DATA_STRUCTURE = {
+export interface DataStructure {
+    local: any;
+    document: any;
+}
+
+const DATA_STRUCTURE: DataStructure = {
     // Local to the user's machine
     local: {
         name_example: ""
@@ -13,7 +18,7 @@ const DATA_STRUCTURE = {
 };
 
 export default class PluginDataManager {
-    data: object;
+    data: DataStructure;
     figma: PluginAPI;
 
     constructor(figma: PluginAPI) {
@@ -36,24 +41,26 @@ export default class PluginDataManager {
     // Data stored globally across *all* Figma documents
     // in user's local storage
 
-    async updateLocalDataField(name: string, value: string) {
-        this.data["local"][name] = value;
+    updateLocalDataField(name: string, value: string) {
+        if (name === "name_example") {
+            this.data.local[name] = value;
+        }
         return this.saveLocalData();
     }
 
-    async fetchAndSyncLocalData() {
+    fetchAndSyncLocalData() {
         return figma.clientStorage.getAsync(DATA_KEY).then((fetched_data) => {
             if (fetched_data) {
-                this.data["local"] = JSON.parse(fetched_data);
+                this.data.local = JSON.parse(fetched_data);
             }
         });
     }
 
-    async saveLocalData() {
+    saveLocalData() {
         let json_serialized_data = JSON.stringify(this.data["local"]);
         return this.figma.clientStorage
             .setAsync(DATA_KEY, json_serialized_data)
-            .then((event) => {
+            .then(() => {
                 this.updatePluginDataToUI();
             });
     }
@@ -61,7 +68,7 @@ export default class PluginDataManager {
     // Data stored in the currently open document
 
     updateDocumentDataField(name: string, value: string) {
-        this.data["document"][name] = value;
+        this.data.document[name] = value;
         return this.saveDocumentData();
     }
 
@@ -71,7 +78,7 @@ export default class PluginDataManager {
                 DATA_KEY
             );
             if (fetched_data) {
-                this.data["document"] = JSON.parse(fetched_data);
+                this.data.document = JSON.parse(fetched_data);
             }
             return true;
         } else {

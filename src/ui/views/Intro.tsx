@@ -1,16 +1,17 @@
 import React, { ChangeEvent } from "react";
+import { DataStructure } from "../../plugin/PluginDataManager";
 
-type IntroProps = {
-    plugin_data: any;
+interface IntroProps {
+    plugin_data: DataStructure;
     addName(nameInput: string): void;
-};
+}
 
-type IntroState = {
+interface IntroState {
     nameInput: string;
-};
+}
 
 export default class Intro extends React.Component<IntroProps, IntroState> {
-    constructor(props) {
+    constructor(props: IntroProps) {
         super(props);
 
         this.state = {

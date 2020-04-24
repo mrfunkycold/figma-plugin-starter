@@ -1,12 +1,14 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
-    "target": "es2017",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    "jsx": "react"
-  }
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "moduleResolution": "node",
+        "target": "es2017",
+        "lib": ["es2017", "dom"],
+        "jsx": "react",
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "pretty": true
+    }
 }
