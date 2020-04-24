@@ -1,34 +1,34 @@
-import React from "react";
+import React, { FC } from "react";
 import ReactDOM from "react-dom";
 import App from "./ui/App";
 
-type RootState = {
-    plugin_data: any;
-};
-
-export default class UI extends React.Component<{}, RootState> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            plugin_data: {}
-        };
-
-        window.onmessage = this.receiveMessage;
-    }
-
-    receiveMessage = (event: any) => {
-        if (event.data.pluginMessage.type == "updatePluginData") {
-            this.setState({ plugin_data: event.data.pluginMessage.data });
-        }
-    };
-
-    render() {
-        return (
-            <div>
-                <App plugin_data={this.state.plugin_data} />
-            </div>
-        );
-    }
+interface UIProps {
+    pluginData: any;
 }
 
-ReactDOM.render(<UI />, document.getElementById("root"));
+const UI: FC<UIProps> = ({ pluginData }) => {
+    return (
+        <div>
+            <App plugin_data={pluginData} />
+        </div>
+    );
+};
+
+// ------------------------
+// starts up the app and rerenders anytime there is an event
+// ------------------------
+
+function renderApp(pluginData: any) {
+    ReactDOM.render(
+        <UI pluginData={pluginData} />,
+        document.getElementById("root")
+    );
+}
+
+window.onmessage = (event: MessageEvent) => {
+    if (event.data.pluginMessage.type === "updatePluginData") {
+        renderApp(event.data.pluginMessage.data);
+    }
+};
+
+renderApp({});
