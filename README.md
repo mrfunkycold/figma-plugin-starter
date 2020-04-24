@@ -8,7 +8,6 @@ To learn more about developing plugins for Figma, check out these resources:
 - [Figma Plugins documentation](https://www.figma.com/plugin-docs/intro/)
 - [Figma Plugin API Reference](https://www.figma.com/plugin-docs/api/api-overview/)
 
-
 This starter demonstrates:
 
 - Bundling plugin code using Webpack
@@ -16,20 +15,21 @@ This starter demonstrates:
 - Uses [Prettier](https://prettier.io/) to keep code style consistent (can be disabled in `webpack.config.js`)
 - Managing and saving data to a Figma Document and/or Local Storage
 
-
 ## Structure
-The main files to edit are located in `src`. The Figma plugin structure separates the user interface and controls of the plugin from the actual plugin actions itself that modify the actual documents in Figma. They communicate through passing messages to each other. 
+
+The main files to edit are located in `src`. The Figma plugin structure separates the user interface and controls of the plugin from the actual plugin actions itself that modify the actual documents in Figma. They communicate through passing messages to each other.
 
 ![](https://static.figma.com/uploads/04c4c6293fce2a7fe67bccd385ee5ab998705780)
 
 (If you want to learn more about how Figma plugins work, [read more here](https://www.figma.com/plugin-docs/how-plugins-run/))
 
-In order to support this, the files are structured into: 
+In order to support this, the files are structured into:
 
 - Plugin Typescript files are called from `src/plugin.ts` and located in `src/plugin/*`
 - User Interface Typescript/React and CSS files are called from `src/ui.tsx` and located in `src/ui/*`
 
 ## Development
+
 In order to make this plugin run, ensure that you do all of these steps!
 
 **Download these files**
@@ -39,11 +39,11 @@ In order to make this plugin run, ensure that you do all of these steps!
 **Building files**
 
     $ npm install
-    $ npx webpack --watch
+    $ npm start
 
 **Testing in Figma**
 
-The main settings for your plugin are located in the `manifest.json` file. Make sure to add the name of your plugin and  Make sure In order to add this plugin for testing in Figma:
+The main settings for your plugin are located in the `manifest.json` file. Make sure to add the name of your plugin and Make sure In order to add this plugin for testing in Figma:
 
 - Open the Figma desktop app (plugin development doesn't work on Figma web)
 - Navigate to the Plugins tab in the left sidebar
@@ -62,7 +62,6 @@ To run the plugin:
 - Right click to open menu, navigate to Plugins -> Development -> Your Plugin
 - You can see the console for errors and logs underneath Plugins -> Development -> Open Console
 - You can quickly re-run the last plugin with ALT+CMD+P
-
 
 ## Publishing
 
